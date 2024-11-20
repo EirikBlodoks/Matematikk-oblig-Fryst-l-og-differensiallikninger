@@ -1,0 +1,103 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[norsk]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{\textbf{Fryst øl og differensiallikninger} \\  Elektronisk systemdesign og innovasjon \\ TMA4101 Matematikk 1}
+
+\author{Eirik V. Norheim} 
+
+\date{20. november 2024}
+
+\begin{document}
+
+\maketitle
+
+Folk sir jo ofte "det er ingenting som ein iskald øl" men det trur eg ikkje dei meina, fordi dersom ølen faktisk var iskald så ville den vore frossen\footnote{På grunn av sitt alkoholinnhold vil ikkje øl faktisk fryse, men heller bli om til ein slags trist slush utan verken noko særleg smak eller kolsyre}. Du hadde nok blitt rimeleg lang i maska om du ba om ein iskald øl og fekk noko som kunne minne meir om ein batong enn nokon form for øl. Er du likevel ein løysingsorientert, og optimistisk type hadde du kanskje gitt deg i veg med å slikke den i deg, men vi alle ville vore einig om at det er suboptimalt.
+
+Nei, når folk flest seiar iskald øl så meina dei som regel berre så kald som mogleg, mens den fortsett å oppretthalde si flytande form. Eg regnar meg sjølv som ein av dei som meina dette, og held fast på at temperatur på øl er inverst proporsjonal med kor digg det er med øl (dette er sjølvsagt ein svært forenkla modell, då mange andre faktorar som humør, temperatur ute, selskap og kor mange øl eg allereie har drukke også spilla inn på dette).
+
+Med disse to enkle aksioma:
+\begin{itemize}
+    \item Jo kaldere øl jo betre og
+    \item Ølen skal ikkje være frossen
+\end{itemize}
+
+\vspace{0.5cm}
+
+Så kan man finne ein sokalla optimal øltemperatur (frå nå omtalt som OPT), som vil være like over frysetemperaturen til øl. Dahls sin pilsner med ein alkoholprosent på 4,7 vil fryse rundt $-2^\circ$C. For å gi oss sjølv litt feilmargin, sett vi OPT = $-1^\circ$C. Fantastisk, problem løyst. Då er det berre å oppbevare all ølen sin ved $-1^\circ$C og så har du alltid optimal øltemperatur på ølen din.
+
+NEI, så enkelt er det dessverre ikkje, er du sånn som meg så har du berre eit kjøleskap på $3^\circ$C, og ein frysar på $-21^\circ$C.
+
+Nei her må det til med hele Norges favorittgren av matematikken: differensiallikningar. Vi ønsker å løyse for tiden det tar for en øl å gå frå $3^\circ$C til $-1^\circ$C, når den er i omgivelsar på $-21^\circ$C. For å gjære det, må vi først sette opp Newtons avkjølingslov:
+\[
+\frac{dT}{dt} = -\alpha (T - T_\text{Fry})
+\]
+
+og $T(0) = 3^\circ$C.
+
+Dersom vi løyser denne for øltemperaturen får vi:
+\[
+T(t) = T_\text{FRY} + (T_0 - T_\text{FRY})e^{-\alpha t}
+\]
+
+Og om vi løyser dette for tiden igjen får vi:
+\[
+t = -\frac{1}{\alpha} \ln\left(\frac{T - T_\text{FRY}}{T_0 - T_\text{FRY}}\right)
+\]
+
+Då er det sjølvsagt berre å køyre planke gjennom denne likninga og sette inn $T_0 = 3^\circ$C, $T_\text{FRY} = -21^\circ$C, og $T = -1^\circ$C:
+\[
+t = -\frac{1}{\alpha} \ln\left(\frac{-1 - (-21)}{3 - (-21)}\right)
+\]
+
+\vspace{0.8cm}
+
+Auda, her har vi likevel støtt på eit problem. Viss eg vil rekne ut tida må eg vite kva $\alpha$ er, og viss eg vil rekne ut det må eg først ta tida på kor lang tid ølen brukar på å komme ned til $-1^\circ$C. Men når eg ikkje veit kor lang tid det tar å komme ned til $-1^\circ$C risikera eg at ølen fryser i prosessen!
+
+Dette kan vi sjølvsagt komme oss rundt ved å rekne ut med ein annan verdi. Eg er vertfall ganske sikker på at dersom eg har ølen i frysaren i berre 10 minutt så må vi kunne unngå at den fryser, og dersom vi etterpå gjær nokon målingar kan vi rekne ut $\alpha$. Det hjelper altså ikkje å sitte på rumpa og teoretisere seg i hel, man må ut å hive øl i frysarar om man skal få nokre verdiar som er til hjelp her i livet.
+
+Det første eg gjær er å kontrollere initialkrava mine. I utleiinga har eg gått utifrå temperaturen som står på kjøleskapet og frysaren, men nærare undersøking med mitt termometer viser at ølen faktisk hold ein temperatur på $\sim 5.0^\circ$C og frysaren på $\sim -22.2^\circ$C. \emph{(Sett inn bilde her.)} Då er det berre å justere initialkrava slik at:
+\[
+T_0 = 5.0^\circ\text{C}, \quad T_\text{FRY} = -22.2^\circ\text{C}
+\]
+
+Og får den nye likninga:
+\[
+t = -\frac{1}{\alpha} \ln\left(\frac{-1 - (-22.2)}{5.0 - (-22.2)}\right)
+\]
+
+Deretter knekk eg ølen, motstår freistinga, legg temperaturmålaren i ølen, og setter heile greia inni frysaren. Ti minutt burde vær både ein safe tidsmengde å vente, og samtidig være nok tid til å gi ein sannsynleg tidskonstant $\alpha$. Etter ti minutt er temperaturen på ølet $1.7^\circ$C. Då løsjer vi for $\alpha$ her og får:
+\[
+10 = -\frac{1}{\alpha} \ln\left(\frac{1.7 - (-22.2)}{5.0 - (-22.2)}\right)
+\]
+\[
+\alpha \approx -0.01293
+\]
+
+Då vil det altså ta:
+\[
+t = -\frac{1}{\alpha} \ln\left(\frac{-1 - (-22.2)}{5.0 - (-22.2)}\right) \approx 19.2 \text{ minutter}
+\]
+
+å få ølen ned til $-1^\circ$C.
+
+
+Dette må sjølvsagt verifiserast. Eg lar ølen stå videre i frysaren, mens eg følgjer med på temperaturen. Da viser det seg at etter ganske nøyaktig 20 minutt når ølen -1°C. 
+
+Likevel var eg nysgjerrig, kor lang tid tar det verkeleg før den faktisk fryse. No var ølen nådd  -1°C og var fortsett ikkje fryst, så kor kald kan den bli? Eg tenkte at dette går sikkert også ann å modellere ei differensiallikning for, kor man kan regne ut frysetemperaturen, som ein funksjon av alkoholprosenten. Så kom eg på noko langt viktigare, eg studera for å bli elektronisk systemingeniør, ikkje eksperimentell matematikar eller kjemikar, og bestemmer meg derfor for å heller berre ta tida på når den fryser. Det er omtrent 21 minutter. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{The fruit of my labour.png}
+    \caption{\centering{ Bildet viser en elektronisk systemingeniøraspirant som  nyter fruktene av hans strev}}
+    \label{ØL}
+\end{figure}
+
+\end{document}
+
+
+\end{document}
+
+\end{document}
